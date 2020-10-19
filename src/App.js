@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
+import Mqttprovider from "./contexts/MqttProvider/provider/MqttProvider";
+import MapComponent from "./components/Map";
 
 function App() {
   return (
-    <div>
-      hello
-    </div>
+    <Mqttprovider>
+      <MapComponent />
+    </Mqttprovider>
   );
 }
 
