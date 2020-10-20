@@ -3,7 +3,12 @@ import MqttContext from "../MqttContext";
 import * as mqtt from "mqtt";
 
 const Mqttprovider = ({ children }) => {
-  const options = { clientId: "reactTest", username: "reactTest", password: "reactTest1234", protocol: 'mqtt' };
+  const options = {
+    clientId: "reactTest",
+    username: "reactTest",
+    password: "reactTest1234",
+    protocol: "wss",
+  };
   const url = "https://smart-city.work/mqtt";
 
   const client = mqtt.connect(url, options);
