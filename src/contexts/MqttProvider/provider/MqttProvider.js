@@ -4,6 +4,13 @@ import * as mqtt from 'mqtt'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
+const {
+  REACT_APP_CLIENT_ID: clientId,
+  REACT_APP_USERNAME: username,
+  REACT_APP_PASSWORD: password,
+  REACT_APP_PROTOCOL: protocol,
+} = process.env
+
 const Mqttprovider = ({ children }) => {
   const [coordinates, setCoordinate] = useState([])
   const [markerResponse, setMarkerResponse] = useState(null)
@@ -11,10 +18,10 @@ const Mqttprovider = ({ children }) => {
 
   useEffect(() => {
     const options = {
-      clientId: 'reactTest',
-      username: 'reactTest',
-      password: 'reactTest1234',
-      protocol: 'wss',
+      clientId,
+      username,
+      password,
+      protocol,
     }
     const url = 'https://smart-city.work/mqtt'
 

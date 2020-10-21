@@ -75,7 +75,7 @@ const MapComponent = () => {
     <div className={css.wrapper}>
       <div className={css.map} id="map" />
       <div className={css.input}>
-        <textarea type="text" cols="20" rows="10" multiple value={markerResponse}></textarea>
+        <textarea type="text" cols="20" rows="10" multiple value={markerResponse || ''}></textarea>
       </div>
     </div>
   )
