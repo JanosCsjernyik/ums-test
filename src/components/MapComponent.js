@@ -35,7 +35,6 @@ const MapComponent = () => {
         map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
           const { values_: { name } = '' } = feature
           if (name === 'marker') {
-
             const {
               geometryChangeKey_: {
                 target: { flatCoordinates },
@@ -75,7 +74,13 @@ const MapComponent = () => {
     <div className={css.wrapper}>
       <div className={css.map} id="map" />
       <div className={css.input}>
-        <textarea type="text" cols="20" rows="10" multiple value={markerResponse || ''}></textarea>
+        <textarea
+          type="text"
+          cols="20"
+          rows="10"
+          multiple
+          defaultValue={markerResponse || ''}
+        ></textarea>
       </div>
     </div>
   )

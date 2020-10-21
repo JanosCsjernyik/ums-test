@@ -5,7 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import 'ol/ol.css'
 import { OSM } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
-import { Icon, Stroke, Style } from 'ol/style'
+import { Stroke, Style } from 'ol/style'
 
 const raster = new TileLayer({
   source: new OSM(),
