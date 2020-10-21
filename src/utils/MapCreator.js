@@ -46,7 +46,7 @@ const markerLayer = new VectorLayer({ source: markerSource })
 
 pathLayer.setStyle(style)
 
-export const createMap = () => ({
+export const createMapParts = () => ({
   pathLayer,
   markerLayer,
   raster,

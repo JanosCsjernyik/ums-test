@@ -1,19 +1,19 @@
 import { Map, View } from 'ol'
 import 'ol/ol.css'
-import { fromLonLat } from 'ol/proj'
+import { fromLonLat, transform } from 'ol/proj'
 import React, { useContext, useEffect, useState } from 'react'
 import MqttContext from '../contexts/MqttProvider/MqttContext'
-import { createMap } from '../utils/MapCreator'
+import { createMapParts } from '../utils/MapCreator'
 import css from './map.module.scss'
 
 const MapComponent = () => {
   const [map, setMap] = useState(null)
   const [path, setPath] = useState(null)
   const [marker, setMarker] = useState(null)
-  const { client, coordinates } = useContext(MqttContext)
+  const { client, coordinates, markerResponse } = useContext(MqttContext)
 
   useEffect(() => {
-    const { pathLayer, markerLayer, raster, path, marker } = createMap()
+    const { pathLayer, markerLayer, raster, path, marker } = createMapParts()
 
     const map = new Map({
       target: 'map',
@@ -34,15 +34,17 @@ const MapComponent = () => {
       map.on('click', e => {
         map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
           const { values_: { name } = '' } = feature
-
           if (name === 'marker') {
+            console.log({ feature, layer })
             const {
               geometryChangeKey_: {
                 target: { flatCoordinates },
               },
             } = feature
 
-            client.publish('reactTest/click:request', JSON.stringify(flatCoordinates))
+            const lonLat = transform(flatCoordinates, 'EPSG:3857', 'EPSG:4326')
+
+            client.publish('reactTest/click:request', JSON.stringify(lonLat))
           }
         })
       })
@@ -69,7 +71,14 @@ const MapComponent = () => {
     }
   }, [coordinates, map, path, marker])
 
-  return <div className={css.map} id="map" />
+  return (
+    <div className={css.wrapper}>
+      <div className={css.map} id="map" />
+      <div className={css.input}>
+        <textarea type="text" cols="20" rows="10" multiple value={markerResponse}></textarea>
+      </div>
+    </div>
+  )
 }
 
 export default MapComponent

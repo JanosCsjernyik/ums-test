@@ -27,6 +27,7 @@ const Mqttprovider = ({ children }) => {
       client.on('message', (topic, message) => {
         if (topic === 'reactTest/path') {
           const newCoordinate = JSON.parse(new TextDecoder('utf-8').decode(message))
+          console.log({ newCoordinate })
           setCoordinate(prevCoordinates => {
             return [...prevCoordinates, newCoordinate]
           })
@@ -34,13 +35,22 @@ const Mqttprovider = ({ children }) => {
 
         if (topic === 'reactTest/click:request') {
           const markerResponse = JSON.parse(new TextDecoder('utf-8').decode(message))
-          setMarkerResponse(markerResponse)
+          console.log({ markerResponse })
+          if (markerResponse) {
+            const [y, x] = markerResponse
+            const coordinate = { x, y }
+            setMarkerResponse(JSON.stringify(coordinate))
+          }
         }
       })
     }
   }, [])
 
-  return <MqttContext.Provider value={{ client, coordinates }}>{children}</MqttContext.Provider>
+  return (
+    <MqttContext.Provider value={{ client, coordinates, markerResponse }}>
+      {children}
+    </MqttContext.Provider>
+  )
 }
 
 export default Mqttprovider
