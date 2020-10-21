@@ -35,7 +35,7 @@ const MapComponent = () => {
         map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
           const { values_: { name } = '' } = feature
           if (name === 'marker') {
-            console.log({ feature, layer })
+
             const {
               geometryChangeKey_: {
                 target: { flatCoordinates },

@@ -5,7 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import 'ol/ol.css'
 import { OSM } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
-import { Stroke, Style } from 'ol/style'
+import { Icon, Stroke, Style } from 'ol/style'
 
 const raster = new TileLayer({
   source: new OSM(),
@@ -22,16 +22,15 @@ const pathSource = new VectorSource({
 })
 
 const marker = new Point([])
+const markerFeature = new Feature({
+  geometry: marker,
+  name: 'marker',
+})
 const markerSource = new VectorSource({
-  features: [
-    new Feature({
-      geometry: marker,
-      name: 'marker',
-    }),
-  ],
+  features: [markerFeature],
 })
 
-const style = [
+const pathStyle = [
   new Style({
     stroke: new Stroke({
       color: '#d12710',
@@ -44,7 +43,7 @@ const pathLayer = new VectorLayer({ source: pathSource })
 
 const markerLayer = new VectorLayer({ source: markerSource })
 
-pathLayer.setStyle(style)
+pathLayer.setStyle(pathStyle)
 
 export const createMapParts = () => ({
   pathLayer,
