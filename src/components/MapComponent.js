@@ -32,7 +32,7 @@ const MapComponent = () => {
   useEffect(() => {
     if (client && map) {
       map.on('click', e => {
-        map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+        map.forEachFeatureAtPixel(e.pixel, function (feature) {
           const { values_: { name } = '' } = feature
           if (name === 'marker') {
             const {
@@ -52,21 +52,21 @@ const MapComponent = () => {
 
   useEffect(() => {
     const latestCordinate = coordinates[coordinates.length - 1] || { x: 0, y: 0 }
-    const latestCordinateInArray = fromLonLat([latestCordinate.y, latestCordinate.x])
+    const lonLatCordinate = fromLonLat([latestCordinate.y, latestCordinate.x])
 
     if (map) {
       if (coordinates.length === 1) {
         map.setView(
           new View({
-            center: latestCordinateInArray,
+            center: lonLatCordinate,
             zoom: 17,
           })
         )
-        path.setCoordinates([latestCordinateInArray])
+        path.setCoordinates([lonLatCordinate])
       } else {
-        path.appendCoordinate(latestCordinateInArray)
+        path.appendCoordinate(lonLatCordinate)
       }
-      marker.setCoordinates(latestCordinateInArray)
+      marker.setCoordinates(lonLatCordinate)
     }
   }, [coordinates, map, path, marker])
 
